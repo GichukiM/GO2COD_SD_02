@@ -3,11 +3,11 @@ const router = express.Router();
 const {
   simpleInterest,
   compoundInterest,
-  loanPayment,
+  loanPayment
 //   investmentGrowth,
 //   retirementSavings,
 //   debtRepayment,
-  currencyConversion
+  // currencyConversion
 } = require("../controllers/calculatorController");
 
 router.post("/simple-interest", simpleInterest);

@@ -105,7 +105,7 @@ exports.compoundInterest = (req, res) => {
     res.json({ amount, interest });
 };
   
-exports.calculateLoanPayment = (req, res) => {
+exports.loanPayment = (req, res) => {
     const { loanAmount, annualInterestRate, numberOfPayments } = req.body;
 
     // Validate inputs
