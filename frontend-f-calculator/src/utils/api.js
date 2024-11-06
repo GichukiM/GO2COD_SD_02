@@ -7,5 +7,6 @@ const API = axios.create({
 export const calculateSimpleInterest = (data) => API.post("/simple-interest", data);
 export const calculateCompoundInterest = (data) => API.post("/compound-interest", data);
 export const calculateLoanPayment = (data) => API.post("/loan-payment", data);
+export const calculateRetirementSaving = (data) => API.post("/retirement-planning", data);
 
 // Other API calls...

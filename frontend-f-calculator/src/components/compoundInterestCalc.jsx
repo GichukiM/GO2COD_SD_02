@@ -19,6 +19,9 @@ const CompoundInterestCalculator = () => {
     return Math.ceil(num * 100) / 100; // Rounds up to the nearest cent
   };
 
+  console.log(result);
+  
+
   useEffect(() => {
     const calculateCompoundInterest = () => {
       const P = Number(principal);
@@ -76,10 +79,14 @@ const CompoundInterestCalculator = () => {
         amount: roundToTwoDecimals(amount),
         interest: roundToTwoDecimals(interest),
       });
+
     };
 
     calculateCompoundInterest();
+   
   }, [principal, rate, compoundFrequency, periodValue, periodUnit]);
+
+  console.log(result);
 
   return (
     <>
