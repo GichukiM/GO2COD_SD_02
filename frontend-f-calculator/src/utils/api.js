@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const API = axios.create({
-  baseURL: "http://localhost:5000/api/calculators",
+  baseURL: "https://ubuntu-calc-hub-backend.onrender.com/api/calculators",
 });
 
 export const calculateSimpleInterest = (data) => API.post("/simple-interest", data);
