@@ -1,9 +1,10 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { Doughnut } from "react-chartjs-2";
 import { defaults } from "chart.js/auto";
+import { calculateLoanPayment } from "../utils/api"; // Import the calculateLoanPayment function
 
 defaults.maintainAspectRatio = false;
-defaults.responsive = true;
+defaults.responsive = true; // Adjust import as necessary
 
 const LoanPaymentCalculator = () => {
   const [loanAmount, setLoanAmount] = useState(10000);
@@ -13,47 +14,34 @@ const LoanPaymentCalculator = () => {
   const [result, setResult] = useState({
     monthlyPayment: 0,
     totalPayment: 0,
-    principal: 0,
-    interest: 0,
+    totalInterestPaid: 0,
   });
 
-  const roundToTwoDecimals = (num) => Math.round(num * 100) / 100; // Rounded to nearest cent
-
-useEffect(() => {
-  const calculatePayments = () => {
-    const P = Number(loanAmount);
-    const r = Number(annualInterestRate) / 100 / 12; // Monthly interest rate
-    const n = Number(numberOfPayments);
-
-    let M;
-    if (r === 0) {
-      M = P / n; // For zero interest, just divide principal by number of payments
-    } else {
-      // Calculate monthly payment using the formula
-      M = (P * r * Math.pow(1 + r, n)) / (Math.pow(1 + r, n) - 1);
+  // Memoize the fetchLoanPaymentData function using useCallback
+  const fetchLoanPaymentData = useCallback(async () => {
+    try {
+      const response = await calculateLoanPayment({
+        loanAmount,
+        annualInterestRate,
+        numberOfPayments,
+      });
+      setResult({
+        monthlyPayment: response.data.monthlyPayment,
+        totalPayment: response.data.totalPayment,
+        totalInterestPaid: response.data.totalInterestPaid,
+      });
+    } catch (error) {
+      console.error("Error fetching loan payment data:", error);
     }
+  }, [loanAmount, annualInterestRate, numberOfPayments]); // Memoize based on dependencies
 
-    const total = M * n;
-    const totalInterestPaid = total - P; // Total interest over the loan life
-    const interestPayment = roundToTwoDecimals(P * r); // First month's interest payment
-    const principalPayment = roundToTwoDecimals(M - interestPayment); // Principal portion of the first month's payment
-
-    const roundedData = {
-      monthlyPayment: roundToTwoDecimals(M),
-      totalPayment: roundToTwoDecimals(total),
-      principal: principalPayment,
-      interest: interestPayment,
-      totalInterestPaid: roundToTwoDecimals(totalInterestPaid),
-    };
-
-    setResult(roundedData);
-  };
-
-  calculatePayments();
-}, [loanAmount, annualInterestRate, numberOfPayments]);
+  // Trigger the API call when any of the dependencies change
+  useEffect(() => {
+    fetchLoanPaymentData();
+  }, [fetchLoanPaymentData]);
 
   return (
-    <div className="flex flex-col m-12">
+    <div className="flex flex-col m-4 md:m-8 lg:m-12">
       <h2 className="text-3xl font-bold text-gray-800 mb-6">
         Loan Payment Calculator
       </h2>
@@ -208,62 +196,142 @@ useEffect(() => {
       </div>
 
       {/* Explanations Section */}
-      <div className="mt-6">
-        <div className="bg-white p-8">
-          {/* What is a Loan Payment? */}
-          <p className="text-gray-700 text-lg mb-6">
-            <span className="text-black font-bold text-xl block mb-2">
-              What is a Loan Payment?
+      <div className="mt-8">
+        <div className="p-8">
+          {/* What is Loan Payment Calculation? */}
+          <div className="text-gray-700 text-lg mb-8">
+            <span className="text-black font-semibold text-2xl mb-4 block">
+              What is Loan Payment Calculation?
             </span>
-            A loan payment is the amount of money you pay to a lender on a regular basis, which includes both principal (the amount you borrowed) and interest (the cost of borrowing). This calculator helps you estimate your monthly payment based on the loan amount, interest rate, and loan term (number of payments).
-          </p>
-
-          {/* How Does the Loan Payment Calculator Work? */}
-          <p className="text-gray-700 text-lg mb-6">
-            <span className="text-black font-bold text-xl block mb-2">
-              How Does the Loan Payment Calculator Work?
-            </span>
-            This calculator uses a standard formula for amortizing loans to calculate the monthly payment:
-            <strong>
-              M = P[r(1 + r)^n] / [(1 + r)^n - 1]
-            </strong>
-            Where:
-            <ul className="ml-5 mt-3 text-gray-600 text-base list-disc list-inside leading-relaxed">
+            <p className="text-gray-600 leading-relaxed mb-4">
+              Loan payment calculation determines the monthly installment
+              required to repay a loan over a set period. This includes both the
+              principal amount (original loan) and the interest. The formula
+              used for calculating the monthly payment is:
+              <strong> M = (P * r * (1 + r)^n) / ((1 + r)^n - 1)</strong>,
+              where:
+            </p>
+            <ul className="ml-6 mt-3 text-gray-600 list-disc space-y-2 leading-relaxed">
               <li>
-                <strong>M</strong> is the monthly payment amount.
+                <strong>M</strong> represents the monthly payment amount.
               </li>
               <li>
-                <strong>P</strong> is the principal loan amount (the amount you borrow).
+                <strong>P</strong> is the principal, or the initial loan amount.
               </li>
               <li>
-                <strong>r</strong> is the monthly interest rate (annual rate divided by 12).
+                <strong>r</strong> is the monthly interest rate (annual interest
+                rate divided by 12).
               </li>
               <li>
-                <strong>n</strong> is the number of payments (loan term in months).
+                <strong>n</strong> is the total number of payments (loan term in
+                months).
               </li>
             </ul>
-            This formula ensures that each payment covers part of the principal as well as the interest on the remaining loan balance.
-          </p>
+            <p className="text-gray-600 mt-4">
+              This method is widely used in financial planning as it helps
+              borrowers understand how much they’ll need to pay each month,
+              including the impact of interest over time.
+            </p>
+          </div>
+
+          {/* How Does the Loan Payment Calculator Work? */}
+          <div className="text-gray-700 text-lg mb-8">
+            <span className="text-black font-semibold text-2xl mb-4 block">
+              How Does the Loan Payment Calculator Work?
+            </span>
+            <p className="text-gray-600 leading-relaxed mb-4">
+              The calculator computes the monthly payment required to pay off a
+              loan by considering both the principal and interest. Here’s a
+              breakdown of how it works:
+            </p>
+            <ul className="ml-6 mt-3 text-gray-600 list-disc space-y-2 leading-relaxed">
+              <li>
+                First, you input the loan amount (P), the original sum borrowed.
+              </li>
+              <li>
+                Next, provide the annual interest rate, which the calculator
+                will divide by 12 to get a monthly rate (r).
+              </li>
+              <li>
+                Finally, specify the loan term in months (n) for which you’ll
+                repay the loan.
+              </li>
+              <li>
+                Using these values, the calculator applies the formula to find
+                the monthly payment (M), ensuring you know what to pay each
+                month.
+              </li>
+            </ul>
+            <p className="text-gray-600 mt-4">
+              This gives you a clear idea of your monthly obligation, including
+              both principal and interest.
+            </p>
+          </div>
 
           {/* How to Use the Loan Payment Calculator? */}
-          <p className="text-gray-700 text-lg mb-6">
-            <span className="text-black font-bold text-xl block mb-2">
+          <div className="text-gray-700 text-lg mb-8">
+            <span className="text-black font-semibold text-2xl mb-4 block">
               How to Use the Loan Payment Calculator?
             </span>
-            Using the loan payment calculator is simple:
-            <ol className="ml-5 mt-3 text-gray-600 text-base list-decimal list-inside leading-relaxed">
+            <p className="text-gray-600 leading-relaxed mb-4">
+              Follow these simple steps to use the calculator:
+            </p>
+            <ol className="ml-6 mt-3 text-gray-600 list-decimal space-y-2 leading-relaxed">
               <li>
-                <strong>Enter the Loan Amount:</strong> Specify the total amount you intend to borrow.
+                <strong>Enter Loan Amount (P):</strong> Provide the principal or
+                the total loan amount borrowed.
               </li>
               <li>
-                <strong>Input the Annual Interest Rate:</strong> Enter the annual interest rate (as a percentage).
+                <strong>Input Interest Rate:</strong> Enter the annual interest
+                rate as a percentage. This rate will be divided by 12 to get the
+                monthly rate.
               </li>
               <li>
-                <strong>Specify the Loan Term:</strong> Indicate the total number of payments you will make (e.g., 60 months for a 5-year loan).
+                <strong>Specify Loan Term (n):</strong> Indicate the number of
+                payments (in months) you plan to make to repay the loan.
               </li>
             </ol>
-            Once you enter these details, the calculator will show your estimated monthly payment, the total interest paid over the life of the loan, and the total amount you will pay by the end of the loan term.
-          </p>
+            <p className="text-gray-600 mt-4">
+              After inputting these values, the calculator shows your monthly
+              payment, total payment (principal + interest), and the total
+              interest paid. This helps in planning your finances.
+            </p>
+          </div>
+
+          {/* Benefits of the Loan Payment Calculator */}
+          <div className="text-gray-700 text-lg">
+            <span className="text-black font-semibold text-2xl mb-4 block">
+              Benefits of the Loan Payment Calculator:
+            </span>
+            <p className="text-gray-600 leading-relaxed mb-4">
+              This loan payment calculator offers multiple advantages,
+              especially for anyone planning to take out a loan or manage their
+              debt:
+            </p>
+            <ul className="ml-6 mt-3 text-gray-600 list-disc space-y-2 leading-relaxed">
+              <li>
+                <strong>Quick Calculations:</strong> Instantly computes monthly
+                payments, making it easier to assess affordability.
+              </li>
+              <li>
+                <strong>Detailed Breakdown:</strong> Shows total payment and
+                interest, giving a complete overview of loan cost.
+              </li>
+              <li>
+                <strong>Budgeting Tool:</strong> Helps in planning monthly
+                budgets by knowing exact monthly dues.
+              </li>
+              <li>
+                <strong>Scenario Testing:</strong> Allows testing different loan
+                amounts or terms to find a payment plan that suits your
+                finances.
+              </li>
+            </ul>
+            <p className="text-gray-600 mt-4">
+              This tool simplifies loan planning, aiding in decision-making for
+              personal or business financing.
+            </p>
+          </div>
         </div>
       </div>
     </div>

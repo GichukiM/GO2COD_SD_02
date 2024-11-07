@@ -35,7 +35,13 @@ const RetirementCalculator = () => {
     };
 
     fetchCalculation();
-  }, [desiredAmount, currentSavings, currentAge, retirementAge]);
+  }, [
+    desiredAmount,
+    currentSavings,
+    currentAge,
+    retirementAge,
+    yearsUntilRetirement,
+  ]);
 
   // Doughnut chart data for comparison between desired amount and current savings
   const chartData = {
@@ -53,7 +59,7 @@ const RetirementCalculator = () => {
   };
 
   return (
-    <div className="flex flex-col m-12">
+    <div className="flex flex-col m-4 md:m-8 lg:m-12">
       <h2 className="text-3xl font-bold text-gray-800 mb-6">
         Retirement Savings Calculator
       </h2>
@@ -205,95 +211,139 @@ const RetirementCalculator = () => {
       </div>
 
       <div className="mt-6">
-  <div className="p-10">
-    {/* What is Retirement Planning? */}
-    <section className="mb-10">
-      <h2 className="text-black font-bold text-2xl mb-4">
-        What is Retirement Planning?
-      </h2>
-      <p className="text-gray-700 text-lg leading-relaxed">
-        Retirement planning is the process of setting financial goals for your post-retirement years and building a strategy to reach those goals. It typically involves determining your desired retirement fund, estimating post-retirement expenses, and planning how much to save or invest. Effective retirement planning can help mitigate inflation and provide a clear path to achieving financial security in retirement.
-      </p>
-    </section>
+        <div className="p-10">
+          {/* What is Retirement Planning? */}
+          <section className="mb-10">
+            <h2 className="text-black font-bold text-2xl mb-4">
+              What is Retirement Planning?
+            </h2>
+            <p className="text-gray-700 text-lg leading-relaxed">
+              Retirement planning is the process of setting financial goals for
+              your post-retirement years and building a strategy to reach those
+              goals. It typically involves determining your desired retirement
+              fund, estimating post-retirement expenses, and planning how much
+              to save or invest. Effective retirement planning can help mitigate
+              inflation and provide a clear path to achieving financial security
+              in retirement.
+            </p>
+          </section>
 
-    {/* How Does the Retirement Savings Calculator Work? */}
-    <section className="mb-10">
-      <h2 className="text-black font-bold text-2xl mb-4">
-        How Does the Retirement Savings Calculator Work?
-      </h2>
-      <p className="text-gray-700 text-lg leading-relaxed">
-        This calculator estimates how much you need to save each month to reach your retirement fund goal. It considers your desired retirement amount, current savings, and the number of years until retirement. Since this calculation does not factor in interest or investment growth, it provides a straightforward monthly savings estimate to help you reach your target amount. Here’s how it works:
-      </p>
+          {/* How Does the Retirement Savings Calculator Work? */}
+          <section className="mb-10">
+            <h2 className="text-black font-bold text-2xl mb-4">
+              How Does the Retirement Savings Calculator Work?
+            </h2>
+            <p className="text-gray-700 text-lg leading-relaxed">
+              This calculator estimates how much you need to save each month to
+              reach your retirement fund goal. It considers your desired
+              retirement amount, current savings, and the number of years until
+              retirement. Since this calculation does not factor in interest or
+              investment growth, it provides a straightforward monthly savings
+              estimate to help you reach your target amount. Here’s how it
+              works:
+            </p>
 
-      <div className="bg-gray-100 p-6 rounded-lg my-4">
-        <p className="text-gray-800 text-xl font-semibold">
-          <span className="text-blue-600">Monthly Savings</span> = Goal Amount / Total Months Until Retirement
-        </p>
-        <p className="text-gray-600 mt-4 text-base">Where:</p>
-        <ul className="ml-5 mt-3 text-gray-600 text-base list-disc list-inside leading-relaxed">
-          <li>
-            <strong>Goal Amount</strong>: The difference between your desired retirement amount and your current savings.
-          </li>
-          <li>
-            <strong>Total Months Until Retirement</strong>: The years remaining until retirement multiplied by 12.
-          </li>
-          <li>
-            <strong>Monthly Savings</strong>: The estimated amount you would need to save each month, assuming no interest or investment growth.
-          </li>
-        </ul>
+            <div className="bg-gray-100 p-6 rounded-lg my-4">
+              <p className="text-gray-800 text-xl font-semibold">
+                <span className="text-blue-600">Monthly Savings</span> = Goal
+                Amount / Total Months Until Retirement
+              </p>
+              <p className="text-gray-600 mt-4 text-base">Where:</p>
+              <ul className="ml-5 mt-3 text-gray-600 text-base list-disc list-inside leading-relaxed">
+                <li>
+                  <strong>Goal Amount</strong>: The difference between your
+                  desired retirement amount and your current savings.
+                </li>
+                <li>
+                  <strong>Total Months Until Retirement</strong>: The years
+                  remaining until retirement multiplied by 12.
+                </li>
+                <li>
+                  <strong>Monthly Savings</strong>: The estimated amount you
+                  would need to save each month, assuming no interest or
+                  investment growth.
+                </li>
+              </ul>
+            </div>
+
+            <p className="text-gray-700 text-lg leading-relaxed">
+              For example, if your retirement goal is 1,000,000 KES, you already
+              have 200,000 KES saved, and you plan to retire in 20 years:
+            </p>
+            <div className="bg-gray-100 p-6 rounded-lg my-4">
+              <ul className="text-gray-600 text-base leading-relaxed list-inside">
+                <li>Goal Amount = 1,000,000 KES - 200,000 KES = 800,000 KES</li>
+                <li>Total Months Until Retirement = 20 × 12 = 240 months</li>
+                <li>
+                  Monthly Savings = 800,000 KES / 240 months = 3,333.33 KES
+                </li>
+              </ul>
+            </div>
+            <p className="text-gray-700 text-lg leading-relaxed">
+              In this example, you would need to save approximately 3,333.33 KES
+              per month to reach your retirement goal.
+            </p>
+
+            <p className="text-gray-700 text-lg leading-relaxed mt-4">
+              <strong>Note:</strong> Since this calculation doesn’t account for
+              compound interest, investment growth, or inflation, it’s a basic
+              estimate. Over time, returns on your savings or investments,
+              changes in your income, or other factors may mean that you won’t
+              need to maintain this exact monthly contribution. This calculator
+              provides a snapshot to help you approximate your savings needs.
+            </p>
+          </section>
+
+          {/* Purpose of a Retirement Savings Calculator */}
+          <section className="mb-10">
+            <h2 className="text-black font-bold text-2xl mb-4">
+              Why Use a Retirement Savings Calculator?
+            </h2>
+            <p className="text-gray-700 text-lg leading-relaxed">
+              Planning for retirement can be overwhelming, and a retirement
+              calculator simplifies this process by offering an
+              easy-to-understand projection of your future financial needs. The
+              goal is to give you a clear starting point, helping you make
+              informed decisions about your savings and investments. While it
+              provides a rough guide, it’s recommended to periodically review
+              your retirement plan to account for growth, inflation, and changes
+              in income.
+            </p>
+          </section>
+
+          {/* Why Should You Make Investments Towards Retirement? */}
+          <section className="mb-10">
+            <h2 className="text-black font-bold text-2xl mb-4">
+              Why Should You Make Investments Towards Retirement?
+            </h2>
+            <p className="text-gray-700 text-lg leading-relaxed">
+              Investing for retirement is essential to ensure your funds grow at
+              a rate that keeps up with or outpaces inflation. While simply
+              saving may fall short due to inflation, investments can provide a
+              significant boost to your retirement funds through compound
+              returns. This means that, with wise investments, you might achieve
+              your goals sooner or require smaller monthly contributions than
+              this calculator suggests.
+            </p>
+          </section>
+
+          {/* Final Advice on Retirement Planning */}
+          <section className="mb-10">
+            <h2 className="text-black font-bold text-2xl mb-4">
+              Final Advice on Retirement Planning
+            </h2>
+            <p className="text-gray-700 text-lg leading-relaxed">
+              Begin saving early to maximize the growth potential of your
+              investments and revisit your retirement plan periodically. With
+              regular adjustments, you’ll account for income changes, expenses,
+              and personal goals. Remember that this calculator offers a basic
+              estimate; working with a financial advisor can provide a more
+              precise strategy that considers investment growth and inflation
+              for a secure retirement.
+            </p>
+          </section>
+        </div>
       </div>
-
-      <p className="text-gray-700 text-lg leading-relaxed">
-        For example, if your retirement goal is 1,000,000 KES, you already have 200,000 KES saved, and you plan to retire in 20 years:
-      </p>
-      <div className="bg-gray-100 p-6 rounded-lg my-4">
-        <ul className="text-gray-600 text-base leading-relaxed list-inside">
-          <li>Goal Amount = 1,000,000 KES - 200,000 KES = 800,000 KES</li>
-          <li>Total Months Until Retirement = 20 × 12 = 240 months</li>
-          <li>Monthly Savings = 800,000 KES / 240 months = 3,333.33 KES</li>
-        </ul>
-      </div>
-      <p className="text-gray-700 text-lg leading-relaxed">
-        In this example, you would need to save approximately 3,333.33 KES per month to reach your retirement goal.
-      </p>
-
-      <p className="text-gray-700 text-lg leading-relaxed mt-4">
-        <strong>Note:</strong> Since this calculation doesn’t account for compound interest, investment growth, or inflation, it’s a basic estimate. Over time, returns on your savings or investments, changes in your income, or other factors may mean that you won’t need to maintain this exact monthly contribution. This calculator provides a snapshot to help you approximate your savings needs.
-      </p>
-    </section>
-
-    {/* Purpose of a Retirement Savings Calculator */}
-    <section className="mb-10">
-      <h2 className="text-black font-bold text-2xl mb-4">
-        Why Use a Retirement Savings Calculator?
-      </h2>
-      <p className="text-gray-700 text-lg leading-relaxed">
-        Planning for retirement can be overwhelming, and a retirement calculator simplifies this process by offering an easy-to-understand projection of your future financial needs. The goal is to give you a clear starting point, helping you make informed decisions about your savings and investments. While it provides a rough guide, it’s recommended to periodically review your retirement plan to account for growth, inflation, and changes in income.
-      </p>
-    </section>
-
-    {/* Why Should You Make Investments Towards Retirement? */}
-    <section className="mb-10">
-      <h2 className="text-black font-bold text-2xl mb-4">
-        Why Should You Make Investments Towards Retirement?
-      </h2>
-      <p className="text-gray-700 text-lg leading-relaxed">
-        Investing for retirement is essential to ensure your funds grow at a rate that keeps up with or outpaces inflation. While simply saving may fall short due to inflation, investments can provide a significant boost to your retirement funds through compound returns. This means that, with wise investments, you might achieve your goals sooner or require smaller monthly contributions than this calculator suggests.
-      </p>
-    </section>
-
-    {/* Final Advice on Retirement Planning */}
-    <section className="mb-10">
-      <h2 className="text-black font-bold text-2xl mb-4">
-        Final Advice on Retirement Planning
-      </h2>
-      <p className="text-gray-700 text-lg leading-relaxed">
-        Begin saving early to maximize the growth potential of your investments and revisit your retirement plan periodically. With regular adjustments, you’ll account for income changes, expenses, and personal goals. Remember that this calculator offers a basic estimate; working with a financial advisor can provide a more precise strategy that considers investment growth and inflation for a secure retirement.
-      </p>
-    </section>
-  </div>
-</div>
-
     </div>
   );
 };

@@ -1,5 +1,5 @@
 // import React from 'react'
-import LoanPaymentCalculator from "../components/loadPaymentCalc";
+import LoanPaymentCalculator from "../components/loanPaymentCalc";
 
 function loanPaymentCalc() {
   return (

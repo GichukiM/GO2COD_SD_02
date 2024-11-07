@@ -5,9 +5,10 @@ const {
   compoundInterest,
   loanPayment,
 //   investmentGrowth,
-  retirementPlanning
+  retirementPlanning,
 //   debtRepayment,
-  // currencyConversion
+  convertCurrency,
+  basicCalculator
 } = require("../controllers/calculatorController");
 
 router.post("/simple-interest", simpleInterest);
@@ -17,6 +18,7 @@ router.post("/retirement-planning", retirementPlanning);
 // router.post("/investment-growth", investmentGrowth);
 // router.post("/retirement-savings", retirementSavings);
 // router.post("/debt-repayment", debtRepayment);
-// router.post("/currency-conversion", currencyConversion);
+router.post("/currency-conversion", convertCurrency);
+router.post("/basic-calculator", basicCalculator);
 
 module.exports = router;

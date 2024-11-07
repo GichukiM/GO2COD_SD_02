@@ -34,7 +34,7 @@ const SimpleInterestCalculator = () => {
           amount: roundToTwoDecimals(data.amount),
           interest: roundToTwoDecimals(data.interest),
         };
-        
+
         setResult(roundedData);
       } catch (error) {
         console.error("Error calculating simple interest", error);
@@ -44,9 +44,8 @@ const SimpleInterestCalculator = () => {
     calculateInterest();
   }, [principal, rate, time, unit]);
 
-
   return (
-    <div className="flex flex-col m-12">
+    <div className="flex flex-col m-4 md:m-8 lg:m-12">
       <h2 className="text-3xl font-bold text-gray-800 mb-6">
         Simple Interest Calculator
       </h2>
@@ -210,18 +209,20 @@ const SimpleInterestCalculator = () => {
       </div>
 
       {/* Explanations Section */}
-      <div className="mt-6">
-        <div className="bg-white p-8">
+      <div className="mt-8">
+        <div className="p-8">
           {/* What is Simple Interest? */}
-          <p className="text-gray-700 text-lg mb-6">
-            <span className="text-black font-bold text-xl block mb-2">
+          <div className="text-gray-700 text-lg mb-8">
+            <span className="text-black font-semibold text-2xl mb-4 block">
               What is Simple Interest?
             </span>
-            Simple Interest is a straightforward method to calculate the
-            interest on a loan or investment based on the initial principal
-            amount. The formula used is:
-            <strong> A = P(1 + rt)</strong>, where:
-            <ul className="ml-5 mt-3 text-gray-600 text-base list-disc list-inside leading-relaxed">
+            <p className="text-gray-600 leading-relaxed mb-4">
+              Simple Interest is a straightforward method to calculate the
+              interest on a loan or investment based on the initial principal
+              amount. The formula used is:
+              <strong> A = P(1 + rt)</strong>, where:
+            </p>
+            <ul className="ml-6 mt-3 text-gray-600 list-disc space-y-2 leading-relaxed">
               <li>
                 <strong>A</strong> is the total amount of money after the
                 interest is added (final amount).
@@ -239,20 +240,24 @@ const SimpleInterestCalculator = () => {
                 is calculated (usually in years).
               </li>
             </ul>
-            Simple Interest remains constant over time because it only considers
-            the principal and not any accumulated interest, making it ideal for
-            short-term loans or simple investments.
-          </p>
+            <p className="text-gray-600 mt-4">
+              Simple Interest remains constant over time because it only
+              considers the principal and not any accumulated interest, making
+              it ideal for short-term loans or simple investments.
+            </p>
+          </div>
 
           {/* How Does the Simple Interest Calculator Work? */}
-          <p className="text-gray-700 text-lg mb-6">
-            <span className="text-black font-bold text-xl block mb-2">
+          <div className="text-gray-700 text-lg mb-8">
+            <span className="text-black font-semibold text-2xl mb-4 block">
               How Does the Simple Interest Calculator Work?
             </span>
-            The calculator uses the formula for Simple Interest to determine
-            both the interest accrued and the total amount at the end of a
-            specified period. Here’s how it works step-by-step:
-            <ul className="ml-5 mt-3 text-gray-600 text-base list-disc list-inside leading-relaxed">
+            <p className="text-gray-600 leading-relaxed mb-4">
+              The calculator uses the formula for Simple Interest to determine
+              both the interest accrued and the total amount at the end of a
+              specified period. Here’s how it works step-by-step:
+            </p>
+            <ul className="ml-6 mt-3 text-gray-600 list-disc space-y-2 leading-relaxed">
               <li>
                 First, you enter the principal amount (P) – the initial sum of
                 money.
@@ -272,17 +277,21 @@ const SimpleInterestCalculator = () => {
                 period.
               </li>
             </ul>
-            This method makes it quick and easy to see how much interest you’ll
-            gain or owe, ideal for personal finance planning.
-          </p>
+            <p className="text-gray-600 mt-4">
+              This method makes it quick and easy to see how much interest
+              you’ll gain or owe, ideal for personal finance planning.
+            </p>
+          </div>
 
           {/* How to Use the Simple Interest Calculator? */}
-          <p className="text-gray-700 text-lg mb-6">
-            <span className="text-black font-bold text-xl block mb-2">
+          <div className="text-gray-700 text-lg mb-8">
+            <span className="text-black font-semibold text-2xl mb-4 block">
               How to Use the Simple Interest Calculator?
             </span>
-            Using the calculator is simple and involves three basic steps:
-            <ol className="ml-5 mt-3 text-gray-600 text-base list-decimal list-inside leading-relaxed">
+            <p className="text-gray-600 leading-relaxed mb-4">
+              Using the calculator is simple and involves three basic steps:
+            </p>
+            <ol className="ml-6 mt-3 text-gray-600 list-decimal space-y-2 leading-relaxed">
               <li>
                 <strong>Enter Principal (P):</strong> Type in the initial amount
                 of money you’re investing or borrowing.
@@ -297,20 +306,25 @@ const SimpleInterestCalculator = () => {
                 the investment or loan, typically in years.
               </li>
             </ol>
-            After entering these values, the calculator will display the
-            interest earned and the total amount (principal + interest). This
-            provides an instant view of how your money grows or what you’ll owe.
-          </p>
+            <p className="text-gray-600 mt-4">
+              After entering these values, the calculator will display the
+              interest earned and the total amount (principal + interest). This
+              provides an instant view of how your money grows or what you’ll
+              owe.
+            </p>
+          </div>
 
           {/* Benefits of Simple Interest Calculator */}
-          <p className="text-gray-700 text-lg">
-            <span className="text-black font-bold text-xl block mb-2">
+          <div className="text-gray-700 text-lg">
+            <span className="text-black font-semibold text-2xl mb-4 block">
               Benefits of Simple Interest Calculator:
             </span>
-            A Simple Interest Calculator offers numerous advantages,
-            particularly for anyone who wants quick answers on interest
-            calculations without manual math:
-            <ul className="ml-5 mt-3 text-gray-600 text-base list-disc list-inside leading-relaxed">
+            <p className="text-gray-600 leading-relaxed mb-4">
+              A Simple Interest Calculator offers numerous advantages,
+              particularly for anyone who wants quick answers on interest
+              calculations without manual math:
+            </p>
+            <ul className="ml-6 mt-3 text-gray-600 list-disc space-y-2 leading-relaxed">
               <li>
                 <strong>Time-Saving:</strong> Calculating interest by hand can
                 be tedious and error-prone. This calculator provides instant
@@ -332,9 +346,11 @@ const SimpleInterestCalculator = () => {
                 and plan accordingly.
               </li>
             </ul>
-            This tool simplifies the process, making it ideal for students,
-            investors, or anyone managing personal finances.
-          </p>
+            <p className="text-gray-600 mt-4">
+              This tool simplifies the process, making it ideal for students,
+              investors, or anyone managing personal finances.
+            </p>
+          </div>
         </div>
       </div>
     </div>
