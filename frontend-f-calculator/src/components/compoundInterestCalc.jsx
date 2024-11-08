@@ -225,8 +225,8 @@ const CompoundInterestCalculator = () => {
           </div>
         </div>
 
-        <div className="mt-10 bg-gray-50 py-12 px-6 md:px-12">
-          <div className="max-w-4xl mx-auto bg-white shadow-lg rounded-lg p-8">
+        <div className="mt-8">
+        <div className="p-8">
             {/* What is Compound Interest? */}
             <div className="text-gray-700 text-lg mb-8">
               <span className="text-black font-semibold text-2xl mb-4 block">
